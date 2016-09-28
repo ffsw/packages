@@ -4,13 +4,13 @@ soll="3600"
 
 if [ $UT -gt $soll ]
 then
-	ping -c 2 -v6 2a03:2260:300c:500::b > /dev/null 2>&1
+	ping -c 2 -v6 2a03:2260:300c:300::b > /dev/null 2>&1
 	if [ $? -ne 0 ]
 	then
-		ping -c 2 -v6 2a03:2260:300c:500::5> /dev/null 2>&1
+		ping -c 2 -v6 2a03:2260:300c:300::5> /dev/null 2>&1
 		if [ $? -ne 0 ]
 		then
-			ping -c 2 -v6 2a03:2260:300c:500::6 > /dev/null 2>&1
+			ping -c 2 -v6 2a03:2260:300c:300::6 > /dev/null 2>&1
 			if [ $? -ne 0 ]
 			then
 				reboot
