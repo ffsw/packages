@@ -1,20 +1,20 @@
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=ffsw_chkgw
+PKG_NAME:=ffsw-chkgw
 PKG_VERSION:=1
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/ffsw_chkgw
+define Package/ffsw-chkgw
   SECTION:=gluon
   CATEGORY:=Gluon
   TITLE:=Check Gateway
   DEPENDS:=
 endef
 
-define Package/ffsw_chkgw/description
+define Package/ffsw-chkgw/description
 	Check Gateway:
 	Check Gateway every 15 Min
 endef
@@ -29,7 +29,7 @@ endef
 define Build/Compile
 endef
 
-define Package/ffsw_chkgw/install
+define Package/ffsw-chkgw/install
 	$(CP) ./files/* $(1)/
 endef
 
