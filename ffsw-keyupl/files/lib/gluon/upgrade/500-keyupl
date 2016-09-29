@@ -1,5 +1,5 @@
 #!/usr/bin/lua
 
 local f = io.open('/usr/lib/micron.d/keyupl', 'w')
-f:write(string.format('*/15 * * * * sleep 6; /lib/gluon/ffsw_keyupl/key.sh\n'))
+f:write(string.format('*/15 * * * * sleep 6; /lib/gluon/ffsw-keyupl/key.sh\n'))
 f:close()
