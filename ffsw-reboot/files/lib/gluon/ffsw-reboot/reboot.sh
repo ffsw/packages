@@ -3,7 +3,7 @@
 # this script will download the reboot conf
 # over mysql database of svc
 
-DOWNLOAD_URL=http://svc.services.ff-sw.net/reboot.php
+DOWNLOAD_URL=http://services.i.ff-sw.net/reboot.php
 WGETC=$(which wget)
 changed=0
 
