@@ -1,0 +1,1 @@
+0 * * * * /lib/gluon/ffsw-reboot/reboot.sh

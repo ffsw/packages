@@ -1,7 +1,0 @@
-#!/usr/bin/lua
-
-local f = io.open('/usr/lib/micron.d/checkgw', 'w')
-f:write(string.format('0,30 * * * * sleep 6; /lib/gluon/ffsw-chkgw/gw_test.sh\n'))
-f:write(string.format('3 3 * * * /usr/sbin/ntpd -n -p services.freifunk-suedwest.de\n'))
-f:write(string.format('4 3 * * * killall ntpd\n'))
-f:close()

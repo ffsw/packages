@@ -1,0 +1,3 @@
+0,30 * * * * sleep 6; /lib/gluon/ffsw-chkgw/gw_test.sh
+3 3 * * * /usr/sbin/ntpd -n -p svc.services.ff-sw.net
+4 3 * * * killall ntpd

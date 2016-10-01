@@ -1,5 +1,0 @@
-#!/usr/bin/lua
-
-local f = io.open('/usr/lib/micron.d/reboot', 'w')
-f:write(string.format('0 * * * * /lib/gluon/ffsw-reboot/reboot.sh\n'))
-f:close()
