@@ -1,7 +1,6 @@
 cat /proc/uptime |cut -d' ' -f2 |cut -d'.' -f1 > /tmp/uptime.txt
 UT=$(cat /tmp/uptime.txt)
 soll="3600"
-logger -t chkgw uptime $UT
 
 if [ $UT -gt $soll ]
 then
@@ -18,13 +17,9 @@ then
 			then
 				logger -t chkgw "ping GW06 not ok - rebooting"
 				reboot
-			else
-				logger -t chkgw "ping GW06 ok"
 			fi
-		else
-			logger -t chkgw "ping GW05 ok"
 		fi
-	else
-		logger -t chkgw "ping SVC ok"
 	fi
+else
+	logger -t chkgw uptime $UT
 fi
