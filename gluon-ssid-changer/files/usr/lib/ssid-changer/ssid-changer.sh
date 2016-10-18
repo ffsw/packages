@@ -16,7 +16,7 @@ LOWER_LIMIT='30' #Below this limit the offline SSID will be used #TS: con 45 auf
 NODENAME=`uname -n`
 if [ ${#NODENAME} -gt $((30 - ${#OFFLINE_POSTFIX})) ] ; then #32 would be possible as well
 	REST=$(( (30 - ${#OFFLINE_POSTFIX} )  )) #calculate the length of the first part of the node identifier in the offline-ssid	
-	OFFLINE_SSID={NODENAME:0:$REST}$OFFLINE_POSTFIX$ # erste Zeichen von SSID + Postifx
+	OFFLINE_SSID=${NODENAME:0:$REST}$OFFLINE_POSTFIX # erste Zeichen von SSID + Postifx
 else
 	OFFLINE_SSID="$NODENAME$OFFLINE_POSTFIX" #passt kommplett
 fi
