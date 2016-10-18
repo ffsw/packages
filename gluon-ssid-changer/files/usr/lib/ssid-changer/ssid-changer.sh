@@ -11,15 +11,14 @@ UPPER_LIMIT='40' #Above this limit the online SSID will be used #TS: von 55 auf 
 LOWER_LIMIT='30' #Below this limit the offline SSID will be used #TS: con 45 auf 30 angepasst
 # In-between these two values the SSID will never be changed to preven it from toggeling every Minute.
 
-
 # TS: Offline SSID aus Online SSID und Postfix generieren
-NODENAME=`uname -n`
-if [ ${#NODENAME} -gt $((30 - ${#OFFLINE_POSTFIX})) ] ; then #32 would be possible as well
-	REST=$(( (30 - ${#OFFLINE_POSTFIX} )  )) #calculate the length of the first part of the node identifier in the offline-ssid	
-	OFFLINE_SSID=${NODENAME:0:$REST}$OFFLINE_POSTFIX # erste Zeichen von SSID + Postifx
+if [ ${#ONLINE_SSID} -gt $((28 - ${#OFFLINE_POSTFIX})) ] ; then #32 would be possible as well
+	REST=$(( (28 - ${#OFFLINE_POSTFIX} )  )) #calculate the length of the first part of the SSID in the offline-ssid	
+	OFFLINE_SSID=${ONLINE_SSID:0:$REST}$OFFLINE_POSTFIX # erste Zeichen von SSID + Postifx
 else
-	OFFLINE_SSID="$NODENAME$OFFLINE_POSTFIX" #passt kommplett
+	OFFLINE_SSID="$ONLINE_SSID$OFFLINE_POSTFIX" #passt kommplett
 fi
+echo "$ONLINE_SSID or $OFFLINE_SSID"
 
 #Is there an active Gateway?
 GATEWAY_TQ=`batctl gwl | grep "^=>" | awk -F'[()]' '{print $2}'| tr -d " "` #Grep the Connection Quality of the Gateway which is currently used
