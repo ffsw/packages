@@ -1,2 +1,1 @@
-* * * * * sh /usr/lib/ssid-changer/ssid-changer.sh
-
+*/5 * * * * sh /usr/lib/ssid-changer/ssid-changer.sh
