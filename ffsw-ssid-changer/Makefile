@@ -1,13 +1,13 @@
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=gluon-ssid-changer
+PKG_NAME:=ffsw-ssid-changer
 PKG_VERSION:=1
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/gluon-ssid-changer
+define Package/ffsw-ssid-changer
   SECTION:=gluon
   CATEGORY:=Gluon
   TITLE:=SSID Changer
@@ -24,8 +24,8 @@ endef
 define Build/Compile
 endef
 
-define Package/gluon-ssid-changer/install
+define Package/ffsw-ssid-changer/install
         $(CP) ./files/* $(1)/
 endef
 
-$(eval $(call BuildPackage,gluon-ssid-changer))
+$(eval $(call BuildPackage,ffsw-ssid-changer))
