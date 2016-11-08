@@ -1,4 +1,5 @@
-Check-Gateway-Script
+Check-Gateway
+=============
 
 After on Hour uptime, the script schecks whether any gateway or the services-server is reachable by ping
 
