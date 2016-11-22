@@ -7,8 +7,8 @@ ONLINE_SSID=$(uci get wireless.client_radio0.ssid -q)
 : ${ONLINE_SSID:=FREIFUNK}   # if for whatever reason ONLINE_SSID is NULL
 OFFLINE_POSTFIX='(inakiv)' # Use something short to leave space for the nodename
 
-UPPER_LIMIT='40' #Above this limit the online SSID will be used #TS: von 55 auf 40 angepasst
-LOWER_LIMIT='30' #Below this limit the offline SSID will be used #TS: con 45 auf 30 angepasst
+UPPER_LIMIT='30' #Above this limit the online SSID will be used #TS: von 55 auf 40 angepasst
+LOWER_LIMIT='10' #Below this limit the offline SSID will be used #TS: con 45 auf 30 angepasst
 # In-between these two values the SSID will never be changed to preven it from toggeling every Minute.
 
 # TS: Offline SSID aus Online SSID und Postfix generieren
