@@ -1,15 +1,13 @@
 #!/bin/sh
 
-# At first some Definitions:
-# TS: Offline nicht durch Prefix sondern durch Postfix hiner der normalen SSID kennzeichnen
 
+# TS: Offline nicht durch Prefix sondern durch Postfix hiner der normalen SSID kennzeichnen
+# 1.12.16 TS: Offline-Auswertung vereinfacht -> wenn kein gw vorhanden
+
+MINUTES=1 # only once every timeframe the SSID will change to OFFLINE (set to 1 minute to change every time the router gets offline)
 ONLINE_SSID=$(uci get wireless.client_radio0.ssid -q)
 : ${ONLINE_SSID:=FREIFUNK}   # if for whatever reason ONLINE_SSID is NULL
 OFFLINE_POSTFIX='(inakiv)' # Use something short to leave space for the nodename
-
-UPPER_LIMIT='30' #Above this limit the online SSID will be used #TS: von 55 auf 40 angepasst
-LOWER_LIMIT='10' #Below this limit the offline SSID will be used #TS: con 45 auf 30 angepasst
-# In-between these two values the SSID will never be changed to preven it from toggeling every Minute.
 
 # TS: Offline SSID aus Online SSID und Postfix generieren
 if [ ${#ONLINE_SSID} -gt $((28 - ${#OFFLINE_POSTFIX})) ] ; then #32 would be possible as well
@@ -20,68 +18,50 @@ else
 fi
 echo "$ONLINE_SSID or $OFFLINE_SSID"
 
-#Is there an active Gateway?
-GATEWAY_TQ=`batctl gwl | grep "^=>" | awk -F'[()]' '{print $2}'| tr -d " "` #Grep the Connection Quality of the Gateway which is currently used
-
-if [ ! $GATEWAY_TQ ]; #If there is no gateway there will be errors in the following if clauses
-then
-	GATEWAY_TQ=0 #Just an easy way to get an valid value if there is no gatway
-fi
-
-if [ $GATEWAY_TQ -gt $UPPER_LIMIT ];
-then
-	echo "Gateway TQ is $GATEWAY_TQ node is online"
-	for HOSTAPD in $(ls /var/run/hostapd-phy*); do #Check status for all physical devices
-		CURRENT_SSID=`grep "^ssid=$ONLINE_SSID" $HOSTAPD | cut -d"=" -f2`
-		if [ $CURRENT_SSID == $ONLINE_SSID ]
-		then
-			echo "SSID $CURRENT_SSID is correct, noting to do"
-			HUP_NEEDED=0
-			break
-		fi
-		CURRENT_SSID=`grep "^ssid=$OFFLINE_SSID" $HOSTAPD | cut -d"=" -f2`
-		if [ $CURRENT_SSID == $OFFLINE_SSID ]
-		then
-			logger -s -t "gluon-offline-ssid" -p 5 "TQ is $GATEWAY_TQ, SSID is $CURRENT_SSID, change to $ONLINE_SSID" #Write Info to Syslog
-			sed -i s/^ssid=$CURRENT_SSID/ssid=$ONLINE_SSID/ $HOSTAPD
-			HUP_NEEDED=1 # HUP here would be to early for dualband devices
-		else
-			echo "There is something wrong, did not find SSID $ONLINE_SSID or $OFFLINE_SSID"
-		fi
-	done
-fi
-
-if [ $GATEWAY_TQ -lt $LOWER_LIMIT ];
-then
-	echo "Gateway TQ is $GATEWAY_TQ node is considered offline"
-	for HOSTAPD in $(ls /var/run/hostapd-phy*); do #Check status for all physical devices
-		CURRENT_SSID=`grep "^ssid=$OFFLINE_SSID" $HOSTAPD | cut -d"=" -f2`
-		if [ $CURRENT_SSID == $OFFLINE_SSID ]
-		then
-			echo "SSID $CURRENT_SSID is correct, noting to do"
-			HUP_NEEDED=0
-			break
-		fi
-		CURRENT_SSID=`grep "^ssid=$ONLINE_SSID" $HOSTAPD | cut -d"=" -f2`
-		if [ $CURRENT_SSID == $ONLINE_SSID ]
-		then
-			logger -s -t "gluon-offline-ssid" -p 5 "TQ is $GATEWAY_TQ, SSID is $CURRENT_SSID, change to $OFFLINE_SSID" #Write Info to Syslog
-			sed -i s/^ssid=$ONLINE_SSID/ssid=$OFFLINE_SSID/ $HOSTAPD
-			HUP_NEEDED=1 # HUP here would be to early for dualband devices
-		else
-			echo "There is something wrong, did not find SSID $ONLINE_SSID or $OFFLINE_SSID"
-		fi
-	done
-fi
-
-if [ $GATEWAY_TQ -ge $LOWER_LIMIT -a $GATEWAY_TQ -le $UPPER_LIMIT ]; #This is just get a clean run if we are in-between the grace periode
-then
-	echo "TQ is $GATEWAY_TQ, do nothing"
-	HUP_NEEDED=0
+# maximum simplified, no more ttvn rating
+CHECK=$(batctl gwl -H|grep -v "gateways in range"|wc -l)
+HUP_NEEDED=0
+if [ $CHECK -gt 0 ]; then
+	echo "node is online"
+	for HOSTAPD in $(ls /var/run/hostapd-phy*); do # check status for all physical devices
+	CURRENT_SSID="$(grep "^ssid=$ONLINE_SSID" $HOSTAPD | cut -d"=" -f2)"
+	if [ "$CURRENT_SSID" == "$ONLINE_SSID" ]
+	then
+		echo "SSID $CURRENT_SSID is correct, nothing to do"
+		break
+	fi
+	CURRENT_SSID="$(grep "^ssid=$OFFLINE_SSID" $HOSTAPD | cut -d"=" -f2)"
+	if [ "$CURRENT_SSID" == "$OFFLINE_SSID" ]; then
+		logger -s -t "gluon-offline-ssid" -p 5 "SSID is $CURRENT_SSID, change to $ONLINE_SSID"
+		sed -i "s~^ssid=$CURRENT_SSID~ssid=$ONLINE_SSID~" $HOSTAPD
+		HUP_NEEDED=1 # HUP here would be to early for dualband devices
+	else
+		echo "There is something wrong, did not find SSID $ONLINE_SSID or $OFFLINE_SSID"
+	fi
+done
+elif [ $CHECK -eq 0 ]; then
+	echo "node is considered offline"
+	if [ $(expr $(date "+%s") / 60 % $MINUTES) -eq 0 ]; then
+		for HOSTAPD in $(ls /var/run/hostapd-phy*); do
+  		CURRENT_SSID="$(grep "^ssid=$OFFLINE_SSID" $HOSTAPD | cut -d"=" -f2)"
+  		if [ "$CURRENT_SSID" == "$OFFLINE_SSID" ]; then
+  			echo "SSID $CURRENT_SSID is correct, noting to do"
+  			break
+  		fi
+  		CURRENT_SSID="$(grep "^ssid=$ONLINE_SSID" $HOSTAPD | cut -d"=" -f2)"
+  		if [ "$CURRENT_SSID" == "$ONLINE_SSID" ]; then
+  			logger -s -t "gluon-offline-ssid" -p 5 "SSID is $CURRENT_SSID, change to $OFFLINE_SSID"
+  			sed -i "s~^ssid=$ONLINE_SSID~ssid=$OFFLINE_SSID~" $HOSTAPD
+  			HUP_NEEDED=1
+  		else
+  			echo "There is something wrong: did neither find SSID '$ONLINE_SSID' nor '$OFFLINE_SSID'"
+  		fi
+		done
+	fi
 fi
 
 if [ $HUP_NEEDED == 1 ]; then
-	killall -HUP hostapd # Send HUP to all hostapd um die neue SSID zu laden
+	killall -HUP hostapd # send HUP to all hostapd to load the new SSID
 	HUP_NEEDED=0
 	echo "HUP!"
 fi
