@@ -12,4 +12,3 @@ Hilfreich:
 
 offen:
   ist client0 immer 2,4 GHz wifi ?
-
