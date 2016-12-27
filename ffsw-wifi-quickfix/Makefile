@@ -7,7 +7,7 @@ PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/ffws-wifi-quickfix
+define Package/ffsw-wifi-quickfix
   SECTION:=gluon
   CATEGORY:=Workaround
   TITLE:=Reboot under certain conditions (loss of mesh neighbours, broken client wifi, unsuccessful anycast ping)
@@ -24,9 +24,9 @@ endef
 define Build/Compile
 endef
 
-define Package/ffws-wifi-quickfix/install
+define Package/ffsw-wifi-quickfix/install
         $(CP) ./files/* $(1)/
 endef
 
-$(eval $(call BuildPackage,ffws-wifi-quickfix))
+$(eval $(call BuildPackage,ffsw-wifi-quickfix))
 

@@ -1,1 +1,0 @@
-20 * * * * /bin/sh /lib/gluon/wifi-quickfix/wifi-quickfix.sh
