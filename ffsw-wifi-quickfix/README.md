@@ -1,4 +1,4 @@
-Workaround for WIFI stop working
+Workaround, if WIFI stops working
 ================================
 
 Wifi-Scan , wenn keine clients und keine Meshes mehr vorhanden, aber mal da waren
