@@ -7,14 +7,15 @@ Umsetztung:
 	Wenn es WIFI-Verbundungen (Client/Mesh) gab, und keine mehr gibt, 
 	dann WIFI-Scan durchführen
 	
-	zusätzlich REboot bei folgenden Bedingungen:
+	zusätzlich Reboot bei folgenden Bedingungen:
 		-respondd läuft nicht, oder
 		-dropbbear läuft nicht, oder
 		-Kernel (batman) error aufgetreten
 
 ToDo: 
 	Dualband 2,4Ghz Erkennung !
-	z.B. Archer C5: client0=5GHz, client1=2,4GHz
+	z.B. Archer C5: client0=5GHz
+	     WDR4300 umgekehrt (client0=2,4GHt)
 
 
 hilfreich:
