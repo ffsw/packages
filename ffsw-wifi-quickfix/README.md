@@ -2,11 +2,15 @@ Workaround, if WIFI stops working
 ================================
 
 Problem:
+
 	Das WLAN-Modul hängt sich manchmal bei ath9k Geäten auf, die viel Datenverkehr aus dem MESH weiterleiten.
+	
 	Es sind dann keine MESH-Parnter und keine Clients mehr vorhanden.
 
 Umsetzung:
+
 	Wenn es WIFI-Verbundungen (Client/Mesh/PrivateWiFi) gab, und keine mehr gibt, 
+	
 	dann WIFI-Scan durchführen
 	
 
