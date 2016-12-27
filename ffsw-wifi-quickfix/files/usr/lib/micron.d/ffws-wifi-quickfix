@@ -1,1 +1,1 @@
-20 * * * * /bin/sh /lib/gluon/ffsw-wifi-quickfix/wifi-quickfix.sh
+* */5 * * * /bin/sh /lib/gluon/ffsw-wifi-quickfix/wifi-quickfix.sh
