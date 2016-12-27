@@ -26,8 +26,8 @@ if [ "$?" == "0" ]; then
 	safety_exit
 fi
 
-# if the router started less than 5 minutes ago, exit
-if [ $(cat /proc/uptime | sed 's/\..*//g') -lt 300 ]; then
+# if the router started less than 30 minutes ago, exit
+if [ $(cat /proc/uptime | sed 's/\..*//g') -lt 1800 ]; then
 	echo "runtime too short, aborting."
 	safety_exit
 fi	
@@ -40,6 +40,7 @@ reboot() {
 	logger -s -t "wifi-quickfix" -p 5 "rebooting... reason: $@"
 	# push log to server here (nyi)
 	/sbin/reboot # comment out for debugging purposes
+	exit
 }
 
 # if respondd or dropbear not running, reboot (probably ram was full, so more services might've crashed)
@@ -66,7 +67,7 @@ echo safety checks done, continuing...
 #########
 
 scan() {
-	logger -s -t "wifi-quickfix" -p 5 "neighbour lost, running iw scan"
+	logger -s -t "wifi-quickfix" -p 5 "neighbours lost, running iw scan"
 	iw dev $DEV scan >/dev/null
 }
 
