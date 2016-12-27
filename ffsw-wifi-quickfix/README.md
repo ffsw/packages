@@ -1,12 +1,15 @@
 Workaround, if WIFI stops working
 ================================
 
-Wifi-Scan , wenn keine clients und keine Meshes mehr vorhanden, aber mal da waren
+Problem:
+	Das WLAN-Modul hängt sich manchmal bei ath9k Geäten auf, die viel Datenverkehr aus dem MESH weiterleiten.
+	Es sind dann keine MESH-Parnter und keine Clients mehr vorhanden.
 
 Umsetzung:
 	Wenn es WIFI-Verbundungen (Client/Mesh/PrivateWiFi) gab, und keine mehr gibt, 
 	dann WIFI-Scan durchführen
 	
+
 	zusätzlich Reboot bei folgenden Bedingungen:
 		-respondd läuft nicht, oder
 		-dropbbear läuft nicht, oder
@@ -14,8 +17,8 @@ Umsetzung:
 
 
 Anm.: 
-	Problem tritt nur bei 2,4GHz auf
-	ein "iw dev mesh0/1 scan" behebt das Problem
+	Problem tritt nur bei 2,4GHz auf.
+	Ein "iw dev mesh0/1 scan" behebt das Problem.
 	
 	2,4Ghz Erkennung nötig wg:
 	z.B. Archer C5: client1 = 2,4 GHz
