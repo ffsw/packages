@@ -12,6 +12,10 @@ Umsetztung:
 		-dropbbear läuft nicht, oder
 		-Kernel (batman) error aufgetreten
 
+ToDo: 
+	Dualband 2,4Ghz Erkennung !
+	z.B. Archer C5: client0=5GHz, client1=2,4GHz
+
 
 hilfreich:
 
