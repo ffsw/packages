@@ -4,7 +4,7 @@
 #   dann WIFI-Scan durchführen
 #
 #	Reboot, wenn respondd oder dropbear nicht laufen
-#	Reboot if there was a kernel (batman) error
+#	Reboot, wenn es kernel (batman) error gab
 #
 
 # find MESH Device 
@@ -27,10 +27,30 @@ if [ "$?" == "0" ]; then
 fi
 
 # if the router started less than 5 minutes ago, exit
-if [ $(cat /proc/uptime | sed 's/\..*//g') -gt 300 ] 
+if [ $(cat /proc/uptime | sed 's/\..*//g') -lt 300 ]; then
 	echo "runtime too short, aborting."
 	safety_exit
 fi	
+
+###########
+# reboots #
+###########
+
+reboot() {
+	logger -s -t "wifi-quickfix" -p 5 "rebooting... reason: $@"
+	# push log to server here (nyi)
+	/sbin/reboot # comment out for debugging purposes
+}
+
+# if respondd or dropbear not running, reboot (probably ram was full, so more services might've crashed)
+pgrep respondd >/dev/null || reboot "respondd not running"
+pgrep dropbear >/dev/null || reboot "dropbear not running"
+
+# reboot if there was a kernel (batman) error
+# for example gluon issue #680
+dmesg | grep "Kernel bug" >/dev/null && reboot "gluon issue #680"
+
+
 
 # check if node has wifi
 if [ ! -L /sys/class/ieee80211/phy0/device/driver ] && [ ! -L /sys/class/ieee80211/phy1/device/driver ]; then
@@ -117,20 +137,3 @@ if  [ "$WIFIRESTART" -eq 1 ]; then
 fi
 
 
-###########
-# reboots #
-###########
-
-reboot() {
-	logger -s -t "wifi-quickfix" -p 5 "rebooting... reason: $@"
-	# push log to server here (nyi)
-	/sbin/reboot # comment out for debugging purposes
-}
-
-# if respondd or dropbear not running, reboot (probably ram was full, so more services might've crashed)
-pgrep respondd >/dev/null || reboot "respondd not running"
-pgrep dropbear >/dev/null || reboot "dropbear not running"
-
-# reboot if there was a kernel (batman) error
-# for example gluon issue #680
-dmesg | grep "Kernel bug" >/dev/null && reboot "gluon issue #680"
