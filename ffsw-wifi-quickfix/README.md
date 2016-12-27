@@ -3,7 +3,17 @@ Workaround for WIFI stop working
 
 Idee:  Wifi-Scan oder Neustart, wenn keine clients und keine Meshes mehr vorhanden, aber mal da waren
 
-Hilfreich:
+Umsetztung:
+	Wenn es WIFI-Verbundungen (Client/Mesh) gab, und keine mehr gibt, 
+	dann WIFI-Scan durchführen
+	
+	zusätzlich REboot bei folgenden Bedingungen:
+		-respondd läuft nicht, oder
+		-dropbbear läuft nicht, oder
+		-Kernel (batman) error aufgetreten
+
+
+hilfreich:
 
   iw dev client0 station dump       // WLAN Nachbarn mit Details
   
