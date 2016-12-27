@@ -1,10 +1,10 @@
 Workaround for WIFI stop working
 ================================
 
-Idee:  Wifi-Scan oder Neustart, wenn keine clients und keine Meshes mehr vorhanden, aber mal da waren
+Wifi-Scan , wenn keine clients und keine Meshes mehr vorhanden, aber mal da waren
 
-Umsetztung:
-	Wenn es WIFI-Verbundungen (Client/Mesh) gab, und keine mehr gibt, 
+Umsetzung:
+	Wenn es WIFI-Verbundungen (Client/Mesh/PrivateWiFi) gab, und keine mehr gibt, 
 	dann WIFI-Scan durchführen
 	
 	zusätzlich Reboot bei folgenden Bedingungen:
@@ -12,10 +12,14 @@ Umsetztung:
 		-dropbbear läuft nicht, oder
 		-Kernel (batman) error aufgetreten
 
-ToDo: 
-	Dualband 2,4Ghz Erkennung !
-	z.B. Archer C5: client0=5GHz
-	     WDR4300 umgekehrt (client0=2,4GHt)
+
+Anm.: 
+	Problem tritt nur bei 2,4GHz auf
+	ein "iw dev mesh0/1 scan" behebt das Problem
+	
+	2,4Ghz Erkennung nötig wg:
+	z.B. Archer C5: client1 = 2,4 GHz
+	     WDR4300: client0 = 2,4 GHz
 
 
 hilfreich:
@@ -27,6 +31,3 @@ hilfreich:
   iw dev client0 station dump | grep -e "^Station " | awk '{ print $2 }  //wifi clients auflisten
 
   fix: iw dev mesh0 scan
-
-offen:
-  ist client0 immer 2,4 GHz wifi ?
