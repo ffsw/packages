@@ -6,20 +6,23 @@ local M = {}
 
 function M.section(form)
   
-  local f = SimpleForm("wifi", translate("WLAN"))
-  f.template = "admin/expertmode"
+  local msg = i18n.translate('Disable WIFI Button')
+  local s = form:section(cbi.SimpleSection, nil, msg)
+  --local f = SimpleForm("wifi", "WLAN")
+  --f.template = "admin/expertmode"
   
-  local s = form:section(cbi.SimpleSection, nil, "WIFI-Button")
+  local s = form:section(cbi.SimpleSection, nil, msg)
   local o
     
   o = s:option(cbi.Flag, "_DisableWifiButton", i18n.translate("Disable WIFI Button"))
   o.default = uci:get_bool("wifi_buttton", "disabled") 
-  o.rmempty = true
+  
+  o.rmempty = false
    
 end
 
 function M.handle(data)
-  uci:set("wifi_buttton", "disabled", data._meshvpn)
+  uci:set("wifi_buttton", "disabled", data._DisableWifiButton)
   uci:save("wifi_buttton")
   uci:commit("wifi_buttton")
   
