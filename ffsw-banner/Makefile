@@ -1,6 +1,6 @@
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=gluon-banner
+PKG_NAME:=ffsw-banner
 PKG_VERSION:=1
 PKG_RELEASE:=$(GLUON_VERSION).$(GLUON_SITE_CODE)-$(GLUON_RELEASE).$(GLUON_CONFIG_VERSION)
 
@@ -8,17 +8,17 @@ PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/gluon-banner
-  SECTION:=eulenfunk
+define Package/ffsw-banner
+  SECTION:=ffsw
   CATEGORY:=Customization
   TITLE:=Banner file replacement
   DEPENDS:=+gluon-core +busybox
-  MAINTAINER:=Eulenfunk www.eulenfunk.de Andreas Dorfer
-  URL:=https://github.com/eulenfunk/packages
-  SOURCE:=https://github.com/eulenfunk/packages.git
+  MAINTAINER:=Eulenfunk/Andreas Dorfer ffsw/Tom
+  URL:=https://github.com/ffsw/packages
+  SOURCE:=https://github.com/ffsw/packages.git
 endef
 
-define Package/gluon-banner/description
+define Package/ffsw-banner/description
 	Banner file replacement
 endef
 
@@ -32,7 +32,7 @@ endef
 define Build/Compile
 endef
 
-define Package/gluon-banner/preinst
+define Package/ffsw-banner/preinst
 #!/bin/sh
 cd "$${IPKG_INSTROOT}/etc/"
 if [ -h "./banner" ] ; then
@@ -51,7 +51,7 @@ fi
 exit 0
 endef
 
-define Package/gluon-banner/postinst
+define Package/ffsw-banner/postinst
 #!/bin/sh
 cd "$${IPKG_INSTROOT}/etc/"
 [ -h "./banner" ] && /bin/rm -f "./banner"
@@ -61,7 +61,7 @@ cd "$${IPKG_INSTROOT}/etc/"
 exit $$?
 endef
 
-define Package/gluon-banner/prerm
+define Package/ffsw-banner/prerm
 #!/bin/sh
 cd "$${IPKG_INSTROOT}/etc/"
 if [ -h "./banner" ] ; then
@@ -79,11 +79,11 @@ fi
 exit 0
 endef
 
-define Package/gluon-banner/install
+define Package/ffsw-banner/install
 	$(INSTALL_DIR) $(1)/etc/
 	$(INSTALL_DATA) ./files/etc/banner.gluon $(1)/etc/
 	$(CP) ./files/* $(1)/
 endef
 
 
-$(eval $(call BuildPackage,gluon-banner))
+$(eval $(call BuildPackage,ffsw-banner))
