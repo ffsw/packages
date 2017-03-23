@@ -5,3 +5,5 @@
  und zeigt zusätzliche Infos an.
  
  
+Todo:
+  WiFi-Infos, Anz.Clients,LastLogin ?
