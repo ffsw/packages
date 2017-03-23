@@ -6,4 +6,4 @@
  
  
 Todo:
-  WiFi-Infos, Anz.Clients,LastLogin ?
+  WiFi-Infos, Anz.Clients,LastLogin?, gluon-version
