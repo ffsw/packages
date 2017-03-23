@@ -16,8 +16,14 @@ export PS1='\u@\h:\w\$ '
 
 # FFSW-Addons:  ##################################################
 lua luainfo
-uptime
-echo " "Firmware:  $(cat /lib/gluon/release)  $(uci show|grep autoupdater.settings.branch|cut -d"=" -f2)  Autoupdater=$(uci show|grep autoupdater.settings.enabled|cut -d"=" -f2) 
+#echo $(uname -n)
+# Linux Version
+echo $(cat /proc/version | cut -d")" -f 1,2,3)
+#FW + Datum
+echo ".n  "Firmware:  $(cat /lib/gluon/release)" / gluon-"$(cat /lib/gluon/gluon-version)
+echo $(cat /proc/version | cut -d")" -f4)
+#Autoupdater^
+echo "Autoupdater: "$(uci show|grep autoupdater.settings.branch|cut -d"=" -f2)  Enabled=$(uci show|grep autoupdater.settings.enabled|cut -d"=" -f2) 
 echo
 #echo  WiFi: ch2.4=$(uci show|grep radio0_channel|cut -d"=" -f2) TX=$(uci show|grep wireless.radio0.htmode|cut -d"=" -f2)/$(uci show|grep wireless.radio0.txpower=|cut -d"=" -f2) wifimesh-off=$(uci show|grep wireless.mesh_radio0.disabled|cut -d"=" -f2) ap-off=$(uci show|grep wireless.client_radio0.disabled|cut -d"=" -f2) ch5=$(uci show|grep radio1_channel|cut -d"=" -f2)
 #echo  ---------------------------------------------------------
@@ -28,7 +34,7 @@ echo -n " Mesh:  MoL:$(uci show network.mesh_lan.auto|cut -d= -f2)"
 echo -n "  MoW:$(uci show network.mesh_wan.auto|cut -d= -f2)"
 echo -n "  M-VPN:$(uci show tunneldigger.@broker[0].enabled |cut -d= -f2)"
 echo "  HopPenalty:'$(cat /sys/class/net/bat0/mesh/hop_penalty)'"
-echo " Contact: $(uci show|grep contact|cut -d= -f2)"
+#echo " Contact: $(uci show|grep contact|cut -d= -f2)"
 echo " "Gateways:
 batctl gwl  | grep -v Nexthop
 echo

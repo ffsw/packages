@@ -14,8 +14,10 @@ local site = require 'gluon.site_config'
 --print(string.format("-----------------------------------------------------"))
 print(string.format("            %s",site.site_name))
 print(string.format(" -----------------------------------------------------"))
-print(string.format(" %s    Target: %s %s ",platform_info.get_model(), platform_info.get_target(), platform_info.get_subtarget()))
+print(string.format(" %s   %s   %s ",uci:get_first("system", "system", "hostname"),site.site_code,uci:get_first("gluon-node-info", "owner", "contact")))
 print(string.format(" -----------------------------------------------------"))
+print(string.format(" %s    Target: %s %s ",platform_info.get_model(), platform_info.get_target(), platform_info.get_subtarget()))
+
 
 --print(string.format("Firmware Version: %s   Autoupdater: Enabled: %s  Branch: %s",old_version, settings.enabled, settings.branch))
 
