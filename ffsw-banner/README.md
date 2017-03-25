@@ -4,6 +4,3 @@
  Ersetzt das standardmäßige OpenWRT-Banner durch ein angepasstes
  und zeigt zusätzliche Infos an.
  
- 
-Todo:
-  WiFi-Infos, Anz.Clients,Last-SSH-Login?, gluon-version
