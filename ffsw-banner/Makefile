@@ -82,6 +82,7 @@ endef
 define Package/ffsw-banner/install
 	$(INSTALL_DIR) $(1)/etc/
 	$(INSTALL_DATA) ./files/etc/banner.gluon $(1)/etc/
+	$(INSTALL_DATA) ./files/etc/profile.gluon $(1)/etc/
 	$(CP) ./files/* $(1)/
 endef
 
