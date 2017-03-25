@@ -5,22 +5,12 @@ local uci = require('uci').cursor()
 local autoupdater_util = require('autoupdater.util')
 local autoupdater_version = require('autoupdater.version')
 local settings = uci:get_all('autoupdater', 'settings')
+
 local site = require 'gluon.site_config'
 
---local version_file = io.open(settings.version_file)
---local old_version = version_file and version_file:read('*l') or ''
---version_file:close()
 
---print(string.format("-----------------------------------------------------"))
-print(string.format("            %s",site.site_name))
+print(string.format("             %s",site.site_name))
 print(string.format(" -----------------------------------------------------"))
-print(string.format(" %s   %s   %s ",uci:get_first("system", "system", "hostname"),site.site_code,uci:get_first("gluon-node-info", "owner", "contact")))
-print(string.format(" -----------------------------------------------------"))
-print(string.format(" %s    Target: %s %s ",platform_info.get_model(), platform_info.get_target(), platform_info.get_subtarget()))
-
-
---print(string.format("Firmware Version: %s   Autoupdater: Enabled: %s  Branch: %s",old_version, settings.enabled, settings.branch))
-
---system.@system[0].hostname
+print(string.format("  %s    Target: %s %s ",platform_info.get_model(), platform_info.get_target(), platform_info.get_subtarget()))
 
 os.exit(0)
