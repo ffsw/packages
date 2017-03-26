@@ -12,7 +12,7 @@ define Package/ffsw-banner
   SECTION:=ffsw
   CATEGORY:=Customization
   TITLE:=Banner file replacement
-  DEPENDS:=+gluon-core +busybox
+  DEPENDS:=+gluon-core +busybox +base-files
   MAINTAINER:=Eulenfunk/Andreas Dorfer ffsw/Tom
   URL:=https://github.com/ffsw/packages
   SOURCE:=https://github.com/ffsw/packages.git
@@ -81,7 +81,7 @@ endef
 
 define Package/ffsw-banner/install
 	$(INSTALL_DIR) $(1)/etc/
-	$(INSTALL_DATA) ./files/etc/banner.gluon $(1)/etc/	
+	$(INSTALL_DATA) ./files/etc/banner.gluon $(1)/etc/
 	$(CP) ./files/* $(1)/
 endef
 
