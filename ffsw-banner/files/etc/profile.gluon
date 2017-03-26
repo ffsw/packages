@@ -1,7 +1,44 @@
+
+make manifest GLUON_BRANCH=experimental
+
+#Verseion Patchen "v021bs " -> "v012cbs "
+
+sed -i 's/v021bs /v021cbs /g' /home/fwbuild/gluon/output/images/sysupgrade/experimental.manifest
+
+
+/home/fwbuild/gluon/contrib/sign.sh /home/rene/secret_tom /home/fwbuild/gluon/output/images/sysupgrade/experimental.manifest
+/home/fwbuild/gluon/contrib/sign.sh /home/rene/secret_rene /home/fwbuild/gluon/output/images/sysupgrade/experimental.manifest
+
+-rw-r--r--    1 root     root           661 Feb 14 00:44 banner
+-rw-r--r--    1 root     root           408 Feb 13 15:27 banner.failsafe
+
+-rw-r--r--    1 root     root           642 Nov 13  2015 profile
+
+#echo Rev.Nr übergeben als Argument
+sed -i 's/v021b[0-9]/v021bs"$1" /g' /home/fwbuild/gluon/site/site.mk
+time make GLUON_BRANCH=experimental GLUON_TARGET=x86-64 -j4 | tee make_v21b"$1".log
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+	make manifest GLUON_BRANCH=experimental
+	#sed -i 's/v021bs /v021cbs /g' /home/fwbuild/gluon/output/images/sysupgrade/experimental.manifest
+	/home/fwbuild/gluon/contrib/sign.sh /home/rene/secret_tom /home/fwbuild/gluon/output/images/sysupgrade/experimental.manifest
+	/home/fwbuild/gluon/contrib/sign.sh /home/rene/secret_rene /home/fwbuild/gluon/output/images/sysupgrade/experimental.manifest
+fi
+	
+PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games make -w -C /home/fwbuild/gluon/build/x86-64/openwrt -f /h
+make[2]: Entering directory '/home/fwbuild/gluon/build/x86-64/openwrt'
+rm -rf /home/fwbuild/gluon/build/x86-64/kernel
+mkdir -p /home/fwbuild/gluon/build/x86-64/kernel
+cp /home/fwbuild/gluon/build/x86-64/openwrt/build_dir/target-x86_64_uClibc-0.9.33.2_gluon-x86-64/linux-x86_64/* /home/f
+/home/fwbuild/gluon/Makefile:340: recipe for target 'prepare-image' failed
+make -w -C /home/fwbuild/gluon/build/x86-64/openwrt/target/linux/x86/image image_prepare KDIR="/home/fwbuild/gluon/buil
+make[3]: Entering directory '/home/fwbuild/gluon/openwrt/target/linux/x86/image'
+
 #!/bin/sh
 [ -f /etc/banner ] && cat /etc/banner
+[ -e /tmp/.failsafe ] && cat /etc/banner.failsafe
 
-export PATH=/usr/bin:/usr/sbin:/bin:/sbin
+export PATH=/usr/sbin:/usr/bin:/sbin:/bin
 export HOME=$(grep -e "^${USER:-root}:" /etc/passwd | cut -d ":" -f 6)
 export HOME=${HOME:-/root}
 export PS1='\u@\h:\w\$ '
@@ -14,14 +51,20 @@ export PS1='\u@\h:\w\$ '
 [ -x /usr/bin/arp ] || arp() { cat /proc/net/arp; }
 [ -x /usr/bin/ldd ] || ldd() { LD_TRACE_LOADED_OBJECTS=1 $*; }
 
+[ -n "$FAILSAFE" ] || {
+        for FILE in /etc/profile.d/*.sh; do
+                [ -e "$FILE" ] && . "$FILE"
+        done
+        unset FILE
+}
 # FFSW-Addons:  ##################################################
 lua /usr/bin/luainfo
 echo " -----------------------------------------------------"
-echo "  "$(uci show |grep hostname|cut -d= -f2 | sed "s/'//g")"      Contact: "$(uci show|grep contact|cut -d= -f2 | sed "s/'//g")
+echo "  "$(uci show |grep hostname|cut -d= -f2 | sed "s/'//g")"      Contact: "$(uci show|grep contact|cut -d= -f2 | s$
 echo " -----------------------------------------------------"
 #Firmware + Autoupdater
 echo -n " "Firmware:  $(cat /lib/gluon/release)" / gluon-"$(cat /lib/gluon/gluon-version)
-echo "  Autoupdater: "$(uci show|grep autoupdater.settings.branch|cut -d"=" -f2)  Enabled=$(uci show|grep autoupdater.settings.enabled|cut -d"=" -f2) 
+echo "  Autoupdater: "$(uci show|grep autoupdater.settings.branch|cut -d"=" -f2)  Enabled=$(uci show|grep autoupdater.$
 # Linux Version + Datum
 echo " "$(cat /proc/version | cut -d")" -f 1)")" $(cat /proc/version | cut -d")" -f4)
 echo " ("$(cat /proc/version | cut -d"(" -f 3,4) | cut -d")" -f1
@@ -39,13 +82,9 @@ echo "  HopPenalty: $(cat /sys/class/net/bat0/mesh/hop_penalty)"
 echo " "Gateways:
 batctl gwl  | grep -v Nexthop
 echo
-#Ende FFSW_Addons ##################################################
-
-
 # just some handy aliases
 alias cd..="cd .."
 alias myip="echo -n 'ifconfig' && ifconfig |head|tail -n1 && echo 'from ssh : ' $SSH_CONNECTION"
 alias status="source /etc/profile"
 alias ll="ls -la"
-
-
+#Ende FFSW_Addons ##################################################
