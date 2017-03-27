@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "only hint, see https://github.com/freifunk-gluon/gluon/issues/421"
+echo "iw station set <MAC address> plink_action <open|block>"
