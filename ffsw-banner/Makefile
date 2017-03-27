@@ -57,12 +57,7 @@ cd "$${IPKG_INSTROOT}/etc/"
 [ -h "./banner" ] && /bin/rm -f "./banner"
 /bin/ln -s "./banner.gluon" "./banner"
 [ -h "./profile" ] && /bin/rm -f "./profile"
-#in rc.lcoal profile.gluon nach profile kopieren kopieren
-# da sysupgrade die alte profile-Datei sichert
-# exit 0 durch Kopierbefehl ersetzen
-sed -i "s/exit 0/cp \/etc\/profile.gluon \/etc\/profile/" ./rc.local
-#exit 0 wieder anhaengen
-echo "exit 0" >> ./rc.local
+/bin/ln -s "./profile.gluon" "./profile"
 exit $$?
 endef
 
