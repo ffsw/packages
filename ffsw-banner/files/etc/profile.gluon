@@ -25,11 +25,11 @@ export PS1='\u@\h:\w\$ '
 # FFSW-Addons:  ##################################################
 lua /usr/bin/luainfo
 echo " -----------------------------------------------------"
-echo "  "$(uci show |grep hostname|cut -d= -f2 | sed "s/'//g")"      Contact: "$(uci show|grep contact|cut -d= -f2 | s$
+echo "  "$(uci show |grep hostname|cut -d= -f2 | sed "s/'//g")"      Contact: "$(uci show|grep contact|cut -d= -f2 | sed "s/'//g")
 echo " -----------------------------------------------------"
 #Firmware + Autoupdater
 echo -n " "Firmware:  $(cat /lib/gluon/release)" / gluon-"$(cat /lib/gluon/gluon-version)
-echo "  Autoupdater: "$(uci show|grep autoupdater.settings.branch|cut -d"=" -f2)  Enabled=$(uci show|grep autoupdater.$
+echo "  Autoupdater: "$(uci show|grep autoupdater.settings.branch|cut -d"=" -f2)  Enabled=$(uci show|grep autoupdater.settings.enabled|cut -d"=" -f2) 
 # Linux Version + Datum
 echo " "$(cat /proc/version | cut -d")" -f 1)")" $(cat /proc/version | cut -d")" -f4)
 echo " ("$(cat /proc/version | cut -d"(" -f 3,4) | cut -d")" -f1
