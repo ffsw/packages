@@ -24,19 +24,20 @@ export PS1='\u@\h:\w\$ '
 
 # FFSW-Addons:  ##################################################
 lua /usr/bin/luainfo
-echo " -----------------------------------------------------"
-echo "  "$(uci show |grep hostname|cut -d= -f2 | sed "s/'//g")"      Contact: "$(uci show|grep contact|cut -d= -f2 | sed "s/'//g")
-echo " -----------------------------------------------------"
-#Firmware + Autoupdater
-echo -n " "Firmware:  $(cat /lib/gluon/release)" / gluon-"$(cat /lib/gluon/gluon-version)
-echo "  Autoupdater: "$(uci show|grep autoupdater.settings.branch|cut -d"=" -f2)  Enabled=$(uci show|grep autoupdater.settings.enabled|cut -d"=" -f2) 
+echo "-----------------------------------------------------------"
+echo " "$(uci show |grep hostname|cut -d= -f2 | sed "s/'//g")"      Contact: "$(uci show|grep contact|cut -d= -f2 | sed "s/'//g")
+echo "-----------------------------------------------------------"
+#Firmware 
+echo " "Firmware:  $(cat /lib/gluon/release)" / gluon-"$(cat /lib/gluon/gluon-version)
 # Linux Version + Datum
 echo " "$(cat /proc/version | cut -d")" -f 1)")" $(cat /proc/version | cut -d")" -f4)
-echo " ("$(cat /proc/version | cut -d"(" -f 3,4) | cut -d")" -f1
-echo
+#echo " ("$(cat /proc/version | cut -d"(" -f 3,4) | cut -d")" -f1
+#Autoupdater
+echo " Autoupdater: "$(uci show|grep autoupdater.settings.branch|cut -d"=" -f2)  Enabled=$(uci show|grep autoupdater.settings.enabled|cut -d"=" -f2) 
+#echo
 echo " "Clients: $(batctl tl |grep W |wc -l)"  " WiFi: $(iwinfo | grep Master | grep -Eo "Channel.*)" | tr "\n" " ")
 uptime
-echo  ---------------------------------------------------------
+echo "-----------------------------------------------------------"
 echo -n ' IP:   ' && ifconfig |head|tail -n1 | awk '{gsub(/^ +| +$/,"")} {print $0 }'
 echo ' SSH: ' $SSH_CONNECTION
 #echo  ---------------------------------------------------------
