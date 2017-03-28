@@ -26,7 +26,7 @@ term={
 
 term.color(0,32)
 print(string.format("           %s             %s",site.site_name,site.site_code))
-term.restore()
+term.color(0,0)
 print(string.format("-----------------------------------------------------------"))
 print(string.format(" %s   Target: %s %s ",platform_info.get_model(), platform_info.get_target(), platform_info.get_subtarget()))
 
