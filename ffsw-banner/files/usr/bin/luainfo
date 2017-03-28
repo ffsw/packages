@@ -8,8 +8,23 @@ local settings = uci:get_all('autoupdater', 'settings')
 
 local site = require 'gluon.site_config'
 
+term={
+        output=io.write,
+        clear = function () term.output("\027[2J") end,
+        cleareol = function () term.output("\027[K") end,
+        goto = function (l,c) term.output("\027[",l,";",c,"H") end,
+        goup = function (n) term.output("\027[",n or 1,";","A") end,
+        godown = function (n) term.output("\027[",n or 1,";","B") end,
+        goright = function (n) term.output("\027[",n or 1,";","C")
+ end, goleft = function (n) term.output("\027[",n or 1,";","D") end,
+        color = function (f,b) term.output("\027[",f,";",b,"m") end,
+        save = function () term.output("\027[s") end,
+        restore = function () term.output("\027[u") end,
+ }
 
+term.color(0,32)
 print(string.format("           %s             %s",site.site_name,site.site_code))
+term.restore()
 print(string.format("-----------------------------------------------------------"))
 print(string.format(" %s   Target: %s %s ",platform_info.get_model(), platform_info.get_target(), platform_info.get_subtarget()))
 
