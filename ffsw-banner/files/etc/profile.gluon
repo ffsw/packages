@@ -28,7 +28,7 @@ echo "-----------------------------------------------------------"
 echo -e " \033[32m"$(uci show |grep hostname|cut -d= -f2 | sed "s/'//g")"\033[0m      Contact: \033[32m"$(uci show|grep contact|cut -d= -f2 | sed "s/'//g")"\033[0m"
 echo "-----------------------------------------------------------"
 #Firmware
-echo -e " Firmware:   \033[32m"$(cat /lib/gluon/release)"\033[0m /  \033[32mgluon-"$(cat /lib/gluon/gluon-version)"\033[0m"
+echo -e " Firmware:   \033[32m"$(cat /lib/gluon/release)"\033[0m / \033[32mgluon-"$(cat /lib/gluon/gluon-version)"\033[0m"
 # Linux Version + Datum
 echo " "$(cat /proc/version | cut -d")" -f 1)")" $(cat /proc/version | cut -d")" -f4)
 #echo " ("$(cat /proc/version | cut -d"(" -f 3,4) | cut -d")" -f1
