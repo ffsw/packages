@@ -1,4 +1,6 @@
+# cat /usr/bin/ledfoo
 #!/bin/sh
+# (c) fuzzle/viisauksena cc-by-nc  no-military no-secretservice(and similar)
 r="-r"
 [ x$1 == x-h ] && echo -e "usage: $0 <option> \n\t$0 -h \t this help \n \t$0 dark \t going dark \n \t$0 light\t going light \n \t$0 1 \t 1to4 \n \t$0 2 \t 4to1 \n \t$0 3 \t blink slow2fast \n \t$0 4 \t knight rider" && exit
 
