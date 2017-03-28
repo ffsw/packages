@@ -1,5 +1,7 @@
 #!/usr/bin/lua
 
+--ffsw/tom: Site und Model Infos für profile/banner
+
 local platform_info = require('platform_info')
 local uci = require('uci').cursor()
 local autoupdater_util = require('autoupdater.util')
