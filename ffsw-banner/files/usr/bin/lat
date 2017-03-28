@@ -1,0 +1,13 @@
+#!/bin/sh
+if [ $# != 1 ] ; then printf "usage: $0 <latitude|status> \nexample : $0 45.6789"; exit 1;
+fi
+
+case "$1" in
+        "?"|status)
+                uci get gluon-node-info.@location[0].latitude
+                ;;
+        *)
+	        uci set gluon-node-info.@location[0].latitude=$1
+        	uci commit gluon-node-info
+                ;;
+esac
