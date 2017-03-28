@@ -3,23 +3,16 @@ echo " autoupdater -f                    // Firmware-Update erzwingen
  ping 8.8.8.8                      // google-DNS wenn IPv4 lokal 
  ip a s                            // alle IPs anzeigen
  ip r s t all                      // gesamte Routingtabelle
- traceroute -n 10.155.0.254        // Traceroute via IP zu einem gateway
+ traceroute -n ipv6                // Traceroute via IP zu einem gateway
  batctl gwl                        // batman-gateways inkl. Gewaehltes
- batctl -m bat0 tr 10.155.0.254    // Traceroute via batman-adv
+ batctl -m bat0 tr ipv6            // Traceroute via batman-adv
  batctl o                          // batman Domain-Nachbarn anzeigen
  batctl tl |grep W |wc -l          // batman Clients an diesem Knoten zählen
  batctl if                         // batman interfaces anzeigen
  brctl show                        // alle bridges anzeigen
  iwinfo                            // wlan-parameter anzeigen
  iw dev client0 station dump       // WLAN Nachbarn mit Details
- nodeinfo                          // diverse infos ausgegeben
  status                            // ssh login info again
-   -> many of the shown attributes have miniscripts to easily set value
-      alt <altitude>   autoupdater-status <1|0>     branch <support>
-      contact <me@myself.i>     fastd-status <1|0>  geoguess  
-      hop_penalty <15>   lat <47.123>  lon  location <1|0> clientwifi <1|0> 
-      MoL <1|0> MoW <1|0> nodename <my-mega-node>  sshkeys
  v4up                              // ipv4 holen, wenn kein vpnuplink
  geoguess                          // generate a wget string to guess GEO
- wginfo				   // get relevant wireguard info
-/etc/init.d/fastd show_key mesh_vpn / \"\" same for fastd"
+ 
