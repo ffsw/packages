@@ -35,7 +35,7 @@ echo " "$(cat /proc/version | cut -d")" -f 1)")" $(cat /proc/version | cut -d")"
 #Autoupdater
 echo " Autoupdater: "$(uci show|grep autoupdater.settings.branch|cut -d"=" -f2)  Enabled=$(uci show|grep autoupdater.settings.enabled|cut -d"=" -f2)
 #echo
-echo " "Clients: $(batctl tl |grep W |wc -l)"  " WiFi: $(iwinfo | grep Master | grep -Eo "Channel.*)" | tr "\n" " ")
+echo " "Clients: \033[32m"$(batctl tl |grep W |wc -l)"\033[0m   WiFi: $(iwinfo | grep Master | grep -Eo "Channel.*)" | tr "\n" " ")
 uptime
 echo "-----------------------------------------------------------"
 echo -n ' IP:   ' && ifconfig |head|tail -n1 | awk '{gsub(/^ +| +$/,"")} {print $0 }'
