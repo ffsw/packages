@@ -35,17 +35,17 @@ echo " "$(cat /proc/version | cut -d")" -f 1)")" $(cat /proc/version | cut -d")"
 #Autoupdater
 echo " Autoupdater: "$(uci show|grep autoupdater.settings.branch|cut -d"=" -f2)  Enabled=$(uci show|grep autoupdater.settings.enabled|cut -d"=" -f2)
 #echo
-echo " "Clients: \033[32m"$(batctl tl |grep W |wc -l)"\033[0m   WiFi: $(iwinfo | grep Master | grep -Eo "Channel.*)" | tr "\n" " ")
+echo -e " Clients: \033[32m"$(batctl tl |grep W |wc -l)"\033[0m   WiFi: "$(iwinfo | grep Master | grep -Eo "Channel.*)" | tr "\n" " ")
 uptime
 echo "-----------------------------------------------------------"
 echo -n ' IP:   ' && ifconfig |head|tail -n1 | awk '{gsub(/^ +| +$/,"")} {print $0 }'
 echo ' SSH: ' $SSH_CONNECTION
 #echo  ---------------------------------------------------------
-echo -n " UplinkIF: "$(batctl gwl | grep = |cut -d] -f1|grep -o -E '[^\[ ]*$')
+echo -e -n " UplinkIF: \033[32m"$(batctl gwl | grep = |cut -d] -f1|grep -o -E '[^\[ ]*$')"\033[0m"
 echo -n "  Mesh:  MoL:$(uci show network.mesh_lan.auto|cut -d= -f2|sed "s/'/ /g")"
 echo -n "  MoW:$(uci show network.mesh_wan.auto|cut -d= -f2|sed "s/'/ /g")"
 echo -n "  Mesh-VPN:$(uci show tunneldigger.@broker[0].enabled |cut -d= -f2|sed "s/'/ /g")"
-echo "  HopPen.: $(cat /sys/class/net/bat0/mesh/hop_penalty)"
+echo "  Hop-Pen.: $(cat /sys/class/net/bat0/mesh/hop_penalty)"
 echo " "Gateways:
 batctl gwl  | grep -v Nexthop
 echo
