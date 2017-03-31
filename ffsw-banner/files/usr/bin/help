@@ -14,5 +14,5 @@ echo " autoupdater -f                    // Firmware-Update erzwingen
  iw dev client0 station dump       // WLAN Nachbarn mit Details
  status                            // ssh login info again
  v4up                              // ipv4 holen, wenn kein vpnuplink
- geoguess                          // generate a wget string to guess GEO
+ geoguess                          // generate a wget string to guess GEO"
  
