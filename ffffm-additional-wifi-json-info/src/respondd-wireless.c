@@ -25,6 +25,8 @@ static struct json_object *respondd_provider_statistics(void) {
                 return NULL;
 
         struct json_object *v;
+		struct json_object *v2;
+		struct json_object *v5;	
 
 	if (a->a24 >= 0 ) {
 		v = json_object_new_double(a->a24);
@@ -33,10 +35,12 @@ static struct json_object *respondd_provider_statistics(void) {
 		json_object_object_add(wireless, "airtime2", v);
 	}
 	if (a->a50 >= 0 ) {
-		v = json_object_new_double(a->a50);
-		if (!v)
+		v5 = json_object_new_double(a->a50);
+		v2 = json_object_new_double(a->a24);
+		if (!v5)
 			goto end;
-		json_object_object_add(wireless, "airtime5", v);
+		json_object_object_add(wireless, "airtime5", v2);
+		json_object_object_add(wireless, "airtime2", v5);
 	}
 
 	json_object_object_add(ret, "wireless", wireless);
@@ -63,6 +67,8 @@ static struct json_object *respondd_provider_nodeinfo(void) {
 		goto end;
 
         struct json_object *v;
+        struct json_object *v2;
+        struct json_object *v5;
 
 	if (i->c24 != FFFFM_INVALID_CHANNEL) {
 		v = json_object_new_int64(i->c24);
@@ -71,10 +77,12 @@ static struct json_object *respondd_provider_nodeinfo(void) {
 		json_object_object_add(wireless, "chan2", v);
 	}
 	if (i->c50 != FFFFM_INVALID_CHANNEL) {
-		v = json_object_new_int64(i->c50);
-		if (!v)
+		v5 = json_object_new_int64(i->c50);
+		v2 = json_object_new_int64(i->c24);
+		if (!v5)
 			goto end;
-		json_object_object_add(wireless, "chan5", v);
+		json_object_object_add(wireless, "chan5", v2);
+		json_object_object_add(wireless, "chan2", v5);
 	}
 	if (i->t24 != FFFFM_INVALID_TXPOWER) {
 		v = json_object_new_int64(i->t24);
@@ -83,10 +91,12 @@ static struct json_object *respondd_provider_nodeinfo(void) {
 		json_object_object_add(wireless, "txpower2", v);
 	}
 	if (i->t50 != FFFFM_INVALID_TXPOWER) {
-		v = json_object_new_int64(i->t50);
-		if (!v)
+		v5 = json_object_new_int64(i->t50);
+		v2 = json_object_new_int64(i->t24);
+		if (!v5)
 			goto end;
-		json_object_object_add(wireless, "txpower5", v);
+		json_object_object_add(wireless, "txpower5", v2);
+		json_object_object_add(wireless, "txpower2", v5);
 	}
 
 	json_object_object_add(ret, "wireless", wireless);
