@@ -4,11 +4,12 @@
 # TS: Offline nicht durch Prefix sondern durch Postfix hiner der normalen SSID kennzeichnen
 # 01.12.16 TS: Offline-Auswertung vereinfacht -> wenn kein gw vorhanden
 # 24.01.18 TS: Parameter "-q" bei uci get an den Anfang verschoben - funzt sonst bei LEDE nicht
+# 24.01.18 TS: Schreibfehler in offline-ssid korrigiert
 
 MINUTES=1 # only once every timeframe the SSID will change to OFFLINE (set to 1 minute to change every time the router gets offline)
 ONLINE_SSID=$(uci -q get wireless.client_radio0.ssid)
 : ${ONLINE_SSID:=FREIFUNK}   # if for whatever reason ONLINE_SSID is NULL
-OFFLINE_POSTFIX='(inakiv)' # Use something short to leave space for the nodename
+OFFLINE_POSTFIX='(inaktiv)' # Use something short to leave space for the nodename
 
 # TS: Offline SSID aus Online SSID und Postfix generieren
 if [ ${#ONLINE_SSID} -gt $((28 - ${#OFFLINE_POSTFIX})) ] ; then #32 would be possible as well
