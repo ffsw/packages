@@ -4,6 +4,8 @@
 
 local platform_info = require('platform_info')
 local uci = require('uci').cursor()
+local autoupdater_util = require('autoupdater.util')
+local autoupdater_version = require('autoupdater.version')
 local settings = uci:get_all('autoupdater', 'settings')
 
 local site = require 'gluon.site_config'

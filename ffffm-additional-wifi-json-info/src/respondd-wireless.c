@@ -25,16 +25,16 @@ static struct json_object *respondd_provider_statistics(void) {
                 return NULL;
 
         struct json_object *v;
-		struct json_object *v2;
-		struct json_object *v5;	
+        struct json_object *v2;
+	struct json_object *v5;
 
-	if (a->a24 >= 0 ) {
+	if (a->a24 != FFFFM_INVALID_AIRTIME) {
 		v = json_object_new_double(a->a24);
 		if (!v)
 			goto end;
 		json_object_object_add(wireless, "airtime2", v);
 	}
-	if (a->a50 >= 0 ) {
+	if (a->a50 != FFFFM_INVALID_AIRTIME) {
 		v5 = json_object_new_double(a->a50);
 		v2 = json_object_new_double(a->a24);
 		if (!v5)
@@ -91,12 +91,10 @@ static struct json_object *respondd_provider_nodeinfo(void) {
 		json_object_object_add(wireless, "txpower2", v);
 	}
 	if (i->t50 != FFFFM_INVALID_TXPOWER) {
-		v5 = json_object_new_int64(i->t50);
-		v2 = json_object_new_int64(i->t24);
-		if (!v5)
+		v = json_object_new_int64(i->t50);
+		if (!v)
 			goto end;
-		json_object_object_add(wireless, "txpower5", v2);
-		json_object_object_add(wireless, "txpower2", v5);
+		json_object_object_add(wireless, "txpower5", v);
 	}
 
 	json_object_object_add(ret, "wireless", wireless);
