@@ -1,40 +1,40 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ffffm-button-bind
-PKG_VERSION:=1
+PKG_VERSION:=2
 PKG_RELEASE:=1
-
-PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 
 include $(TOPDIR)/../package/gluon.mk
 
 define Package/$(PKG_NAME)
-  SECTION:=gluon
-  CATEGORY:=Gluon
-  MAINTAINER:=Freifunk Frankfurt
-  TITLE:=Button feature set binding
+  MAINTAINER:=Freifunk Frankfurt and Kiel
+  TITLE:=Bind a router button to a feature set
   DEPENDS:=+gluon-web-admin
 endef
 
-define Package/$(PKG_NAME)/description
-	Bind a router button to a feature set.
-endef
-
 define Build/Prepare
-	mkdir -p $(PKG_BUILD_DIR)
+	$(call Gluon/Build/Prepare)
+	$(CP) gluonShellDiet.sh $(PKG_BUILD_DIR)/gluonShellDiet.sh
 endef
 
-define Build/Configure
+define ShellSrcDiet
+	rm -rf $(2)
+	$(CP) $(1) $(2)
+	$(FIND) $(2) -type f | while read src; do \
+		$(PKG_BUILD_DIR)/gluonShellDiet.sh "$$$$src" > "$$$$src.o"; \
+		chmod $$$$(stat -c%a "$$$$src") "$$$$src.o"; \
+		mv "$$$$src.o" "$$$$src"; \
+	done
 endef
 
 define Build/Compile
-	$(call GluonSrcDiet,./luasrc,$(PKG_BUILD_DIR)/luadest/)
+	$(call Gluon/Build/Compile)
+	$(call ShellSrcDiet,shsrc,$(PKG_BUILD_DIR)/shdest/)
 endef
 
-define Package/$(PKG_NAME)/install
-	$(CP) ./files/* $(1)/
-	$(CP) $(PKG_BUILD_DIR)/luadest/* $(1)/
-	$(call GluonInstallI18N,$(PKG_NAME),$(1))
+define Package/ffffm-button-bind/install
+	$(Gluon/Build/Install)
+	$(CP) $(PKG_BUILD_DIR)/shdest/. $(1)/
 endef
 
-$(eval $(call BuildPackage,$(PKG_NAME)))
+$(eval $(call BuildPackageGluon,$(PKG_NAME)))
