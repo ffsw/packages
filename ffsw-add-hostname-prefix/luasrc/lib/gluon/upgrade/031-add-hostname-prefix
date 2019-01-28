@@ -16,9 +16,7 @@ local f=io.open('/root/tom.log','w')
 
 if (prefix:upper()~=hostn_preifix:upper()) then  
   local hostn_new = prefix .. hostn  
-  uci:set('system', '@system[0]', 'hostname', hostn_new)
-  uci:save('system')  
-  uci:commit('system')    
+  pretty_hostname.set(uci, hostn_new)  
   local f2=io.open('/root/tom2.log','w')   
    f2:write(string.format("newhostname '%s' \n",hostn_new))
    f2:close()
