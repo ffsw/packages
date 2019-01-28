@@ -8,7 +8,8 @@ local prefix = site.hostname_prefix()
 local hostn = uci:get('system', '@system[0]', 'hostname')
 local hostn_preifix = hostn:sub(1,prefix:len())
 
-io.stderr:write(string.format("prefix: '%s' hostname '%s' \n",prefix,hostname))
+io.stderr:write(string.format("prefix: '%s'\n",prefix))
+io.stderr:write(string.format("hostname '%s' \n",hostname))
 
 if (prefix:upper()~=hostn_preifix:upper()) then  
   local hostn_new = prefix .. hostn  
