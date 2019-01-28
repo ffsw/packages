@@ -3,9 +3,10 @@
 --add prefix to hostname, if non existent
 local site = require 'gluon.site'
 local uci = require('simple-uci').cursor()
+local pretty_hostname = require 'pretty_hostname'
 
 local prefix = site.hostname_prefix()
-local hostn = uci:get('system', '@system[0]', 'hostname')
+local hostn = pretty_hostname.get(uci)
 local hostn_preifix = hostn:sub(1,prefix:len())
  
 local f=io.open('/root/tom.log','w')
