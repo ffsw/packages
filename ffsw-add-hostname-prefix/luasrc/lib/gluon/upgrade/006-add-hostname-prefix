@@ -11,6 +11,5 @@ local hostn_preifix = hostn:sub(1,prefix:len())
 if (prefix:upper()~=hostn_preifix:upper()) then  
   local hostn_new = prefix .. hostn  
   uci:set('system', '@system[0]', 'hostname', hostn_new)
-  uci:save('system')
-  uci:commit('system')  
+  uci:save('system')  
 end
