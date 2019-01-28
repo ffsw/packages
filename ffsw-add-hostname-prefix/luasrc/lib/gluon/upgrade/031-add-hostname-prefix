@@ -7,14 +7,18 @@ local uci = require('simple-uci').cursor()
 local prefix = site.hostname_prefix()
 local hostn = uci:get('system', '@system[0]', 'hostname')
 local hostn_preifix = hostn:sub(1,prefix:len())
-
-io.stderr:write(string.format("prefix: '%s'\n",prefix))
-io.stderr:write(string.format("hostname '%s' \n",hostname))
+ 
+local f=io.open('/root/tom.log','w')
+ f:write(string.format("prefix: '%s'\n",prefix))
+ f:write(string.format("hostname '%s' \n",hostname)) 
+ f:close()
 
 if (prefix:upper()~=hostn_preifix:upper()) then  
   local hostn_new = prefix .. hostn  
   uci:set('system', '@system[0]', 'hostname', hostn_new)
   uci:save('system')  
-  uci:commit('system')  
-  io.stderr:write(string.format("newhostname '%s' \n",hostn_new))
+  uci:commit('system')    
+  local f2=io.open('/root/tom2.log','w')   
+   f2:write(string.format("newhostname '%s' \n",hostn_new))
+   f2:close()
 end
