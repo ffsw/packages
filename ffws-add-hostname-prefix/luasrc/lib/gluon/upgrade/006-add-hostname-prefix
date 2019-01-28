@@ -1,0 +1,16 @@
+#!/usr/bin/lua
+
+--add prefix to hostname, if non existent
+local site = require 'gluon.site'
+local uci = require('simple-uci').cursor()
+
+local prefix = site.hostname_prefix()
+local hostn = uci:get('system', '@system[0]', 'hostname')
+local hostn_preifix = hostn:sub(1,prefix:len())
+
+if (prefix:upper()~=hostn_preifix:upper()) then  
+  local hostn_new = prefix .. hostn  
+  uci:set('system', '@system[0]', 'hostname', hostn_new)
+  uci:save('system')
+  uci:commit('system')  
+end
