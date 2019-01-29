@@ -4,20 +4,39 @@
 local site = require 'gluon.site'
 local uci = require('simple-uci').cursor()
 local pretty_hostname = require 'pretty_hostname'
+local util=require'gluon.util'
 
 local prefix = site.hostname_prefix()
 local hostn = pretty_hostname.get(uci)
+local hostn2 = uci:get('system', '@system[0]', 'hostname')
 local hostn_preifix = hostn:sub(1,prefix:len())
- 
-local f=io.open('/root/tom.log','w')
- f:write(string.format("prefix: '%s'\n",prefix))
- f:write(string.format("hostname '%s' \n",hostn)) 
- f:close()
+local hostnd = util.default_hostname()
 
+ 
+local f=io.open('/root/tom.log','a')
+ f:write(os.date("Start %m/%d/%Y %I:%M:%S\n"))
+ f:write("prefix: ")
+ f:write(string.format("'%s'\n",prefix))
+ f:write("hostname: ") 
+ f:write(string.format("'%s'\n",hostn2)) 
+ f:write("prettyhostname: ") 
+ f:write(string.format("'%s'\n",hostn)) 
+ f:write("defaulthostn: ") 
+ f:write(string.format("'%s'\n",hostnd)) 
+ 
+
+ os.execute("sleep 1")
+ 
 if (prefix:upper()~=hostn_preifix:upper()) then  
   local hostn_new = prefix .. hostn  
   pretty_hostname.set(uci, hostn_new)  
+  uci:set('system', '@system[0]', 'hostname', hostn_new)
+  uci:save('system')  
+  uci:commit('system')
   local f2=io.open('/root/tom2.log','w')   
-   f2:write(string.format("newhostname '%s' \n",hostn_new))
-   f2:close()
+  f:write(string.format("newhostname: "))
+  f:write(string.format("'%s'\n",hostn_new))   
 end
+f:write(os.date("End %m/%d/%Y %I:%M:%S\n"))
+f:write("---------------------------------\n")
+f:close()
