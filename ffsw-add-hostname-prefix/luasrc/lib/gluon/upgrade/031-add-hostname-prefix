@@ -11,7 +11,7 @@ local hostn_preifix = hostn:sub(1,prefix:len())
  
 local f=io.open('/root/tom.log','w')
  f:write(string.format("prefix: '%s'\n",prefix))
- f:write(string.format("hostname '%s' \n",hostname)) 
+ f:write(string.format("hostname '%s' \n",hostn)) 
  f:close()
 
 if (prefix:upper()~=hostn_preifix:upper()) then  
