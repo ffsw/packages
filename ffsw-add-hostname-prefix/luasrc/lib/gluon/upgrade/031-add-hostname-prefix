@@ -5,6 +5,11 @@ local site = require 'gluon.site'
 local uci = require('simple-uci').cursor()
 local pretty_hostname = require 'pretty_hostname'
 local util=require'gluon.util'
+local sy = uci:get_first('system', 'system')
+
+--os.execute("sleep 2")
+
+
 
 local prefix = site.hostname_prefix()
 local hostn = pretty_hostname.get(uci)
@@ -12,9 +17,19 @@ local hostn2 = uci:get('system', '@system[0]', 'hostname')
 local hostn_preifix = hostn:sub(1,prefix:len())
 local hostnd = util.default_hostname()
 
+local function nvl(s)
+  if (s == nil) then
+	  return ''
+	 else
+       return s
+  end	     
+end
+
+--os.execute("uci show system > /root/tomuci.log")
  
 local f=io.open('/root/tom.log','a')
- f:write(os.date("Start %m/%d/%Y %I:%M:%S\n"))
+ f:write(os.date("Start %m/%d/%Y %I:%M:%S - "))
+ f:write(os.clock().."\n")
  f:write("prefix: ")
  f:write(string.format("'%s'\n",prefix))
  f:write("hostname: ") 
@@ -23,9 +38,20 @@ local f=io.open('/root/tom.log','a')
  f:write(string.format("'%s'\n",hostn)) 
  f:write("defaulthostn: ") 
  f:write(string.format("'%s'\n",hostnd)) 
- 
-
- os.execute("sleep 1")
+ f:write("syshn: ") 
+ f:write(string.format("'%s'\n",nvl(sy.hostname))) 
+ f:write("sysphn: ") 
+ f:write(string.format("'%s'\n",nvl(sy.pretty_hostname)))  
+ local sy
+	uci:foreach('system', 'system',
+		function(s)
+			sy = s
+			 f:write("xhn: ") 
+			 f:write(string.format("'%s'\n",nvl(sy.hostname)))
+			 f:write("xphn: ") 
+			 f:write(string.format("'%s'\n",nvl(sy.pretty_hostname)))  
+		end
+	)
  
 if (prefix:upper()~=hostn_preifix:upper()) then  
   local hostn_new = prefix .. hostn  
@@ -37,6 +63,7 @@ if (prefix:upper()~=hostn_preifix:upper()) then
   f:write(string.format("newhostname: "))
   f:write(string.format("'%s'\n",hostn_new))   
 end
-f:write(os.date("End %m/%d/%Y %I:%M:%S\n"))
+f:write(os.date("End %m/%d/%Y %I:%M:%S - "))
+f:write(os.clock().."\n")
 f:write("---------------------------------\n")
 f:close()
