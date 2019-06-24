@@ -7,12 +7,12 @@ then
 	ping -c 2 -v6 2a03:2260:300c:300::b > /dev/null 2>&1
 	if [ $? -ne 0 ]
 	then
-		logger -t "ping SVC not ok"
-		ping -c 2 -v6 2a03:2260:300c:300::4> /dev/null 2>&1
+		logger -t chkgw "ping SVC not ok"
+		ping -c 2 -v6 2a03:2260:300c:300::4 > /dev/null 2>&1
 		if [ $? -ne 0 ]
 		then
 			logger -t chkgw "ping GW4 not ok"
-			ping -c 2 -v6 2a03:2260:300c:300::5> /dev/null 2>&1
+			ping -c 2 -v6 2a03:2260:300c:300::5 > /dev/null 2>&1
 			if [ $? -ne 0 ]
 			then
 				logger -t chkgw "ping GW5 not ok"			
