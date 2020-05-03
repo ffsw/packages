@@ -12,6 +12,7 @@ local sy = uci:get_first('system', 'system')
 
 
 local prefix = site.hostname_prefix()
+local prefix = 'ffxx'
 local hostn = pretty_hostname.get(uci)
 local hostn2 = uci:get('system', '@system[0]', 'hostname')
 local hostn_preifix = hostn:sub(1,prefix:len())
