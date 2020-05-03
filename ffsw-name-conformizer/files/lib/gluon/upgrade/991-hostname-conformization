@@ -4,9 +4,11 @@
 HOSTNAME=$(pretty-hostname)
 
 #if [ "$HOSTNAME" = "WINTER-IS-HERE" ]; then
-    uci delete system.@system[0].pretty_hostname
-	POSTFIX='X'
-	HOSTNAME=$HOSTNAME$POSTFIX
-    uci set system.@system[0].hostname=$HOSTNAME
+#    uci delete system.@system[0].pretty_hostname
+#	POSTFIX='X'
+#	HOSTNAME=$HOSTNAME$POSTFIX
+#    uci set system.@system[0].hostname=$HOSTNAME
 #fi
 
+uci set system.test="test"
+uci set system.test2=$HOSTNAME
