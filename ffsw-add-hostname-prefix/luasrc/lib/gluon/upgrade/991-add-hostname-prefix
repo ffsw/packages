@@ -9,8 +9,6 @@ local sy = uci:get_first('system', 'system')
 
 --os.execute("sleep 2")
 
-
-
 local prefix = site.hostname_prefix()
 local hostn = pretty_hostname.get(uci)
 local hostn2 = uci:get('system', '@system[0]', 'hostname')
@@ -61,11 +59,13 @@ if (prefix:upper()~=hostn_preifix:upper()) then
   uci:set('system', '@system[0]', 'hostname', hostn_new)
   uci:save('system')  
   --uci:commit('system')
-  local f2=io.open('/root/tom2.log','w')   
+  --local f2=io.open('/root/tom2.log','a')   
   f:write(string.format("newhostname: "))
-  f:write(string.format("'%s'\n",hostn_new))   
+  f:write(string.format("'%s'\n",hostn_new))
+end
+  
   f:write(os.date("End %m/%d/%Y %I:%M:%S - "))
   f:write(os.clock().."\n")
   f:write("---------------------------------\n")
   f:close()
-end
+
