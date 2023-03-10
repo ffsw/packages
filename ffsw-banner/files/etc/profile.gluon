@@ -41,11 +41,12 @@ echo "-----------------------------------------------------------"
 echo -n ' IP:   ' && ifconfig |head|tail -n1 | awk '{gsub(/^ +| +$/,"")} {print $0 }'
 echo ' SSH: ' $SSH_CONNECTION
 #echo  ---------------------------------------------------------
-echo -e -n " UplinkIF: \033[32m"$(batctl gwl | grep * |cut -d] -f1|grep -o -E '[^\[ ]*$')"\033[0m"
-echo -n "  Mesh:  MoL:$(uci show network.mesh_lan.disabled|cut -d= -f2|sed "s/'/ /g"|tr 01 10)"
-echo -n "  MoW:$(uci show network.mesh_wan.disabled|cut -d= -f2|sed "s/'/ /g"|tr 01 10)"
-echo -n "  Mesh-VPN:$(uci show tunneldigger.@broker[0].enabled |cut -d= -f2|sed "s/'/ /g")"
-echo "  Hop-Pen.: $(cat /sys/class/net/bat0/mesh/hop_penalty)"
+# nachfolgende Zeilen mit gluon 2022 auskommentiert - Infos müssen ggf. anders ermittelt werden
+#echo -e -n " UplinkIF: \033[32m"$(batctl gwl | grep * |cut -d] -f1|grep -o -E '[^\[ ]*$')"\033[0m"
+#echo -n "  Mesh:  MoL:$(uci show network.mesh_lan.disabled|cut -d= -f2|sed "s/'/ /g"|tr 01 10)"
+#echo -n "  MoW:$(uci show network.mesh_wan.disabled|cut -d= -f2|sed "s/'/ /g"|tr 01 10)"
+#echo -n "  Mesh-VPN:$(uci show tunneldigger.@broker[0].enabled |cut -d= -f2|sed "s/'/ /g")"
+#echo "  Hop-Pen.: $(cat /sys/class/net/bat0/mesh/hop_penalty)"
 echo " "Gateways:
 batctl gwl  | grep -v Nexthop
 echo
